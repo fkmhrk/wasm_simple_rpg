@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "game"
+	}
+],
+  "settings": {
+    "typescript.tsdk": "simple_rpg/node_modules/typescript/lib"
+  }
+}

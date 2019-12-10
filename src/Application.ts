@@ -3,39 +3,38 @@
 /// <reference path="./clients/HTTPClient.ts" />
 
 import { getBody, isStatus200 } from "./clients/Functions";
+import TopPage from "./pages/TopPage";
+
+declare var Go: any;
+declare function init(): any;
 
 export default class Application implements IApplication {
-    private templateClient: HTTPClient;
-    private router: IRouter;
-    services: IServices;
+  private templateClient: HTTPClient;
+  services: IServices;
 
-    constructor(
-        templateClient: HTTPClient,
-        services: IServices,
-        routerFactory: (app: IApplication) => IRouter
-    ) {
-        this.templateClient = templateClient;
-        this.services = services;
-        this.router = routerFactory(this);
-    }
+  constructor(templateClient: HTTPClient, services: IServices) {
+    this.templateClient = templateClient;
+    this.services = services;
+  }
 
-    start() {
-        this.router.start();
-    }
+  async start() {
+    const go = new Go();
 
-    fetchTemplate(name: string): Promise<string> {
-        const url = `/pages/${name}`;
-        return this.templateClient
-            .send(Method.GET, url, {}, null)
-            .then(isStatus200)
-            .then(getBody);
-    }
+    const result = await WebAssembly.instantiateStreaming(
+      fetch("./game.wasm"),
+      go.importObject
+    );
+    go.run(result.instance);
+    const state = init();
+    console.log(state);
+    new TopPage(this).onCreate();
+  }
 
-    navigate(path: string): void {
-        this.router.navigate(path);
-    }
-
-    redirect(path: string): void {
-        this.router.redirect(path);
-    }
+  fetchTemplate(name: string): Promise<string> {
+    const url = `./pages/${name}`;
+    return this.templateClient
+      .send(Method.GET, url, {}, null)
+      .then(isStatus200)
+      .then(getBody);
+  }
 }

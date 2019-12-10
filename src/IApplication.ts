@@ -1,14 +1,9 @@
-/// <reference path="./IRouter.ts" />
 /// <reference path="./services/IServices.ts" />
 
 interface IApplication {
-    services: IServices;
+  services: IServices;
 
-    start(router: IRouter): void;
+  start(): void;
 
-    fetchTemplate(name: string): Promise<string>;
-
-    navigate(path: string): void;
-
-    redirect(path: string): void;
+  fetchTemplate(name: string): Promise<string>;
 }

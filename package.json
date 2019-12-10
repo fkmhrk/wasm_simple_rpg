@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "wasm": "cd game && GOOS=js GOARCH=wasm go build -o ../docs/game.wasm",
+    "v": "go version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "hrk fkm",
   "license": "MIT",
   "devDependencies": {
+    "@types/page": "^1.8.0",
     "css-loader": "^3.3.0",
     "node-static": "^0.7.10",
     "sass-loader": "^8.0.0",
@@ -23,6 +26,8 @@
     "@material/button": "^4.0.0",
     "@material/card": "^4.0.0",
     "@material/textfield": "^4.0.0",
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.11.0",
+    "page": "^1.11.5",
+    "ractive": "^1.3.8"
   }
 }
