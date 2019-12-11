@@ -1,5 +1,7 @@
 /// <reference path="./IPage.ts" />
 import Ractive from "ractive";
+import "../scss/top.scss";
+import Button from "../views/Button";
 //import mdc from "../decorators/mdc";
 
 export default class TopPage implements IPage {
@@ -15,6 +17,9 @@ export default class TopPage implements IPage {
     this.ractive = new Ractive({
       el: "#container",
       template: t,
+      components: {
+        Button: Button,
+      },
     });
   }
 }
