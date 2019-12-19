@@ -1,0 +1,17 @@
+.move {
+  .commands {
+    position: fixed;
+    left: 8px;
+    bottom: 24px;
+    .info {
+      p {
+        margin: 0;
+      }
+    }
+    button {
+      display: block;
+      margin: 4px 0;
+      width: 100%;
+    }
+  }
+}

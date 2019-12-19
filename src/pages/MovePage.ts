@@ -1,12 +1,13 @@
 /// <reference path="./IPage.ts" />
 import Ractive from "ractive";
-import "../scss/top.scss";
+import "../scss/move.scss";
 import Button from "../views/Button";
 import { handleResult } from "./commandHandler";
+import PartyStatus from "../views/PartyStatus";
 
 declare function sendCommand(c: string, data: string): ICommandResult;
 
-export default class TopPage implements IPage {
+export default class MovePage implements IPage {
   private app: IApplication;
   ractive!: Ractive;
 
@@ -15,12 +16,13 @@ export default class TopPage implements IPage {
   }
 
   async onCreate() {
-    const t = await this.app.fetchTemplate("top.html");
+    const t = await this.app.fetchTemplate("move.html");
     this.ractive = new Ractive({
       el: "#container",
       template: t,
       components: {
         Button: Button,
+        PartyStatus: PartyStatus,
       },
       on: {
         start: () => this.start(),

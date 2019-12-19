@@ -1,3 +1,8 @@
 interface IPage {
-    onCreate(): void;
+  ractive: IRactive;
+  onCreate(): void;
+}
+
+interface IRactive {
+  set(data: any): void;
 }
