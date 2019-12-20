@@ -1,14 +1,35 @@
 <div class="move">
-  <PartyStatus />
+  <PartyStatus party="{{party}}"/>
+  {{#if state == 3}}
+  <div style="display: flex; margin-top: 8px;">
+    <div class="mdc-card status">
+      <p>{{party.characters[selected_index].name}}</p> 
+        <pre>Level  {{format(party.characters[selected_index].level, 3)}}
+HP {{format(party.characters[selected_index].hp, 3)}}/{{format(party.characters[selected_index].max_hp, 3)}}
+MP {{format(party.characters[selected_index].mp, 3)}}/{{format(party.characters[selected_index].max_mp, 3)}}
+XP{{format(party.characters[selected_index].xp, 8)}}
+NEXT{{format(party.characters[selected_index].next_xp - party.characters[selected_index].xp, 6)}}</pre>
+    </div>
+  </div>
+  {{/if}}
 
   <div class="commands">
     <div class="mdc-card info">
       <p>Floor 1</p>
       <p>Gold 1</p>
     </div>
-    <Button accent>Next</Button>
-    <Button accent>Back</Button>
-    <Button accent>Find</Button>
-    <Button accent>Status</Button>
+    {{#if state == 1}}
+    <Button on-click="['send', 'next_floor']" accent>Next</Button>
+    <Button on-click="['send', 'find']" accent>Find</Button>
+    <Button on-click="['send', 'shop']" accent>Shop</Button>
+    <Button on-click="['send', 'status']" accent>Status</Button>
+    {{elseif state == 2}}
+      {{#party.characters:i}}
+      <Button on-click="['send', 'select_character', i]" accent>{{.name}}</Button>
+      {{/}}
+      <Button on-click="['send', 'back']" accent>Back</Button>    
+    {{elseif state == 3}}
+      <Button on-click="['send', 'back']" accent>Back</Button>    
+    {{/if}}
   </div>
 </div>

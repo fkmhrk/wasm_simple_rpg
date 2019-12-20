@@ -1,4 +1,12 @@
 .move {
+  .status {
+    padding: 8px;
+    p,
+    pre {
+      margin: 0;
+      font-family: Consolas, "Courier New", Courier, Monaco, monospace;
+    }
+  }
   .commands {
     position: fixed;
     left: 8px;

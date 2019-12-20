@@ -4,8 +4,9 @@ import "../scss/move.scss";
 import Button from "../views/Button";
 import { handleResult } from "./commandHandler";
 import PartyStatus from "../views/PartyStatus";
+import { numberFormat } from "../models/numberFormat";
 
-declare function sendCommand(c: string, data: string): ICommandResult;
+declare function sendCommand(c: string, data?: any): ICommandResult;
 
 export default class MovePage implements IPage {
   private app: IApplication;
@@ -24,20 +25,17 @@ export default class MovePage implements IPage {
         Button: Button,
         PartyStatus: PartyStatus,
       },
+      data: {
+        format: numberFormat,
+      },
       on: {
-        start: () => this.start(),
+        send: (e: any, command: string, data: any) => this.send(command, data),
       },
     });
   }
 
-  private start() {
-    let data: string;
-    try {
-      data = localStorage.getItem("d") ?? "";
-    } catch {
-      data = "";
-    }
-    const result = sendCommand("start", data);
+  private send(command: string, data: any) {
+    const result = sendCommand(command, data);
     handleResult(result, this.app, this.ractive);
   }
 }
