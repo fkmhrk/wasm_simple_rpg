@@ -70,6 +70,15 @@ func (c Characters) ToJSON() []interface{} {
 	return list
 }
 
+func (c *Character) AddHP(value int) {
+	c.HP += value
+	if c.HP < 0 {
+		c.HP = 0
+	} else if c.HP > c.MaxHP {
+		c.HP = c.MaxHP
+	}
+}
+
 func (c *Character) Copy() *Character {
 	return &Character{
 		Name:  c.Name,

@@ -73,10 +73,7 @@ func HealMagic(state *model.GameState, args []js.Value) map[string]interface{} {
 	}
 	currentCharacter := state.Party.Characters[state.Index]
 	if currentCharacter.MP < 1 {
-		return map[string]interface{}{
-			"next_page": "",
-			"data":      state.ToJSON(),
-		}
+		return result.WithState(state)
 	}
 	state.State = model.StateBattleSelectHealTarget
 	data := state.ToJSON()
@@ -96,10 +93,8 @@ func Target(state *model.GameState, args []js.Value) map[string]interface{} {
 
 	currentCharacter.MP -= 1
 	value := currentCharacter.Level * 16
-	targetCharacter.HP += value
-	if targetCharacter.HP > targetCharacter.MaxHP {
-		targetCharacter.HP = targetCharacter.MaxHP
-	}
+	targetCharacter.AddHP(value)
+
 	return findNextCharacter(state, args)
 }
 
@@ -109,18 +104,12 @@ func DoCureMagic(state *model.GameState, args []js.Value) map[string]interface{}
 	}
 	currentCharacter := state.Party.Characters[state.Index]
 	if currentCharacter.MP < 3 {
-		return map[string]interface{}{
-			"next_page": "",
-			"data":      state.ToJSON(),
-		}
+		return result.WithState(state)
 	}
 	currentCharacter.MP -= 3
 	value := currentCharacter.Level * 6
 	for _, ch := range state.Party.Characters {
-		ch.HP += value
-		if ch.HP > ch.MaxHP {
-			ch.HP = ch.MaxHP
-		}
+		ch.AddHP(value)
 	}
 	return findNextCharacter(state, args)
 }
@@ -168,6 +157,7 @@ func findNextCharacter(state *model.GameState, args []js.Value) map[string]inter
 func checkEnemyKilled(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.Enemy.HP == 0 {
 		state.State = model.StateBattleGotXP
+		state.Gold += state.Enemy.Gold
 		state.Index = 0
 		data := state.ToJSON()
 		return map[string]interface{}{
