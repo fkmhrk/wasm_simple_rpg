@@ -22,6 +22,24 @@ func Next(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State == model.StateBattleGotXP {
 		return checkLevelUp(state, args)
 	}
+	if state.State == model.StateBattlePlayerKilled {
+		return checkAllPlayerKilled(state, args)
+	}
+	if state.State == model.StateBattleAllKilled {
+		for _, ch := range state.Party.Characters {
+			ch.HP = ch.MaxHP
+			ch.MP = ch.MaxMP
+		}
+		// back
+		if state.Floor > 1 {
+			state.Floor--
+		}
+		state.State = model.StateMoveMain
+		return map[string]interface{}{
+			"next_page": "move",
+			"data":      state.ToJSON(),
+		}
+	}
 	// todo restore save data
 	return map[string]interface{}{
 		"next_page": "",
@@ -201,14 +219,34 @@ func doEnemyAction(state *model.GameState, args []js.Value) map[string]interface
 func checkPlayerKilled(state *model.GameState, args []js.Value) map[string]interface{} {
 	targetCharacter := state.Party.Characters[state.Index]
 	if targetCharacter.HP == 0 {
-		state.State = model.StateBattleGotXP
+		state.State = model.StateBattlePlayerKilled
 		data := state.ToJSON()
+		data["battle"] = map[string]interface{}{
+			"index": state.Index,
+		}
 		return map[string]interface{}{
 			"next_page": "",
 			"data":      data,
 		}
 	}
 	state.Index = -1
+	return findNextCharacter(state, args)
+}
+
+func checkAllPlayerKilled(state *model.GameState, args []js.Value) map[string]interface{} {
+	for _, ch := range state.Party.Characters {
+		if ch.HP > 0 {
+			state.Index = -1
+			return findNextCharacter(state, args)
+		}
+	}
+	// all characters are killed..
+	state.State = model.StateBattleAllKilled
+	data := state.ToJSON()
+	return map[string]interface{}{
+		"next_page": "",
+		"data":      data,
+	}
 	return findNextCharacter(state, args)
 }
 
@@ -238,6 +276,11 @@ func checkLevelUp(state *model.GameState, args []js.Value) map[string]interface{
 				"data":      data,
 			}
 		}
+	}
+	// back to main
+	if state.Enemy.IsBoss && state.Floor == state.MaxFloor {
+		// next floor
+		state.MaxFloor++
 	}
 	state.State = model.StateMoveMain
 	return map[string]interface{}{
