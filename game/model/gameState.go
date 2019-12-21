@@ -40,6 +40,8 @@ const (
 	StateMoveMain                 = 1
 	StateMoveStateSelectCharacter = 2
 	StateMoveStatusShow           = 3
+	StateMoveShopItemList         = 4
+	StateMoveShopTarget           = 5
 
 	StateBattleStart            = 100
 	StateBattleSelectCommand    = 101

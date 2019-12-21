@@ -16,6 +16,9 @@ var commands = make(map[string]CommandFunc)
 func init() {
 	commands["start"] = title.Start
 	commands["menu"] = move.Menu
+	commands["shop"] = move.Shop
+	commands["shop_target"] = move.ShopTarget
+	commands["buy"] = move.Buy
 	commands["status"] = move.Status
 	commands["back"] = Back
 	commands["next_floor"] = move.NextFloor
@@ -47,6 +50,10 @@ func Back(state *model.GameState, args []js.Value) map[string]interface{} {
 	switch state.State {
 	case model.StateMoveStateSelectCharacter:
 		state.State = model.StateMoveMain
+	case model.StateMoveShopItemList:
+		state.State = model.StateMoveMain
+	case model.StateMoveShopTarget:
+		state.State = model.StateMoveShopItemList
 	case model.StateMoveStatusShow:
 		state.State = model.StateMoveStateSelectCharacter
 	case model.StateBattleSelectMagic:
