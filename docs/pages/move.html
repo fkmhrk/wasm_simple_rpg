@@ -23,6 +23,7 @@ Gold{{format(gold, 6)}}</pre>
     <Button on-click="['send', 'find']" accent>Find</Button>
     <Button on-click="['send', 'shop']" accent>Shop</Button>
     <Button on-click="['send', 'status']" accent>Status</Button>
+    <Button on-click="['send', 'save']" accent>Save</Button>
     {{elseif state == 2}}
       {{#party.characters:i}}
       <Button on-click="['send', 'select_character', i]" accent>{{.name}}</Button>
