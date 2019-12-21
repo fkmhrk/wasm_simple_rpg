@@ -1,0 +1,35 @@
+.battle {
+  .status {
+    padding: 8px;
+    p,
+    pre {
+      margin: 0;
+      font-family: Consolas, "Courier New", Courier, Monaco, monospace;
+    }
+  }
+  .bottom {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    left: 8px;
+    right: 8px;
+    bottom: 24px;
+    .message {
+      margin: 0;
+      padding: 4px 8px;
+    }
+  }
+  .commands {
+    .info {
+      pre {
+        margin: 0;
+        font-family: Consolas, "Courier New", Courier, Monaco, monospace;
+      }
+    }
+    button {
+      display: block;
+      margin: 4px 0;
+      width: 120px;
+    }
+  }
+}
