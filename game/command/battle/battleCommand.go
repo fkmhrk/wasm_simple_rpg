@@ -5,6 +5,7 @@ import (
 
 	"math/rand"
 
+	"github.com/fkmhrk/web-simple-rpg/command/result"
 	"github.com/fkmhrk/web-simple-rpg/model"
 )
 
@@ -30,9 +31,7 @@ func Next(state *model.GameState, args []js.Value) map[string]interface{} {
 
 func Fight(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State != model.StateBattleSelectCommand {
-		return map[string]interface{}{
-			"error_code": "INVALID_STATE",
-		}
+		return result.ErrInvalidState
 	}
 	currentCharacter := state.Party.Characters[state.Index]
 	damage := currentCharacter.STR - state.Enemy.DEF*4
@@ -58,9 +57,7 @@ func Fight(state *model.GameState, args []js.Value) map[string]interface{} {
 
 func Magic(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State != model.StateBattleSelectCommand {
-		return map[string]interface{}{
-			"error_code": "INVALID_STATE",
-		}
+		return result.ErrInvalidState
 	}
 	state.State = model.StateBattleSelectMagic
 	data := state.ToJSON()
@@ -72,9 +69,7 @@ func Magic(state *model.GameState, args []js.Value) map[string]interface{} {
 
 func HealMagic(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State != model.StateBattleSelectMagic {
-		return map[string]interface{}{
-			"error_code": "INVALID_STATE",
-		}
+		return result.ErrInvalidState
 	}
 	currentCharacter := state.Party.Characters[state.Index]
 	if currentCharacter.MP < 1 {
@@ -93,9 +88,7 @@ func HealMagic(state *model.GameState, args []js.Value) map[string]interface{} {
 
 func Target(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State != model.StateBattleSelectHealTarget {
-		return map[string]interface{}{
-			"error_code": "INVALID_STATE",
-		}
+		return result.ErrInvalidState
 	}
 	var target int = args[1].Int()
 	currentCharacter := state.Party.Characters[state.Index]
@@ -112,9 +105,7 @@ func Target(state *model.GameState, args []js.Value) map[string]interface{} {
 
 func DoCureMagic(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State != model.StateBattleSelectMagic {
-		return map[string]interface{}{
-			"error_code": "INVALID_STATE",
-		}
+		return result.ErrInvalidState
 	}
 	currentCharacter := state.Party.Characters[state.Index]
 	if currentCharacter.MP < 3 {
@@ -136,9 +127,7 @@ func DoCureMagic(state *model.GameState, args []js.Value) map[string]interface{}
 
 func StateUp(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State != model.StateBattleLevelUp {
-		return map[string]interface{}{
-			"error_code": "INVALID_STATE",
-		}
+		return result.ErrInvalidState
 	}
 	targetCharacter := state.Party.Characters[state.Index]
 	var stateType int = args[1].Int()
