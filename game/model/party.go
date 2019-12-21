@@ -39,7 +39,7 @@ func newCharacter(name string) *Character {
 		MP:    3,
 		MaxMP: 3,
 		Level: 1,
-		XP:    8,
+		XP:    0,
 		Next:  10,
 		STR:   3,
 		DEF:   0,
