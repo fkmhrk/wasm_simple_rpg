@@ -49,6 +49,25 @@ func NextFloor(state *model.GameState, args []js.Value) map[string]interface{} {
 	}
 }
 
+func Find(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateMoveMain {
+		return map[string]interface{}{
+			"error_code": "INVALID_STATE",
+		}
+	}
+	// prepare
+	state.PrepareForBattle()
+	// select enemy
+	state.Enemy = model.NewNormalEnemy(state.Floor)
+
+	state.State = model.StateBattleStart
+
+	return map[string]interface{}{
+		"next_page": "battle",
+		"data":      state.ToJSON(),
+	}
+}
+
 func SelectStatusCharacter(state *model.GameState, args []js.Value) map[string]interface{} {
 	var index int = args[1].Int()
 	state.State = model.StateMoveStatusShow

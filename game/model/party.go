@@ -13,6 +13,8 @@ type Character struct {
 	Level int
 	XP    int
 	Next  int
+	STR   int
+	DEF   int
 }
 
 type Characters []*Character
@@ -37,8 +39,20 @@ func newCharacter(name string) *Character {
 		MP:    3,
 		MaxMP: 3,
 		Level: 1,
-		XP:    0,
+		XP:    8,
 		Next:  10,
+		STR:   3,
+		DEF:   0,
+	}
+}
+
+func (p *Party) Copy() *Party {
+	characters := make([]*Character, 0, len(p.Characters))
+	for _, c := range p.Characters {
+		characters = append(characters, c.Copy())
+	}
+	return &Party{
+		Characters: characters,
 	}
 }
 
@@ -56,6 +70,21 @@ func (c Characters) ToJSON() []interface{} {
 	return list
 }
 
+func (c *Character) Copy() *Character {
+	return &Character{
+		Name:  c.Name,
+		HP:    c.HP,
+		MaxHP: c.MaxHP,
+		MP:    c.MP,
+		MaxMP: c.MaxMP,
+		Level: c.Level,
+		XP:    c.XP,
+		Next:  c.Next,
+		STR:   c.STR,
+		DEF:   c.DEF,
+	}
+}
+
 func (c *Character) ToJSON() map[string]interface{} {
 	return map[string]interface{}{
 		"name":    c.Name,
@@ -66,5 +95,7 @@ func (c *Character) ToJSON() map[string]interface{} {
 		"level":   c.Level,
 		"xp":      c.XP,
 		"next_xp": c.Next,
+		"str":     c.STR,
+		"def":     c.DEF,
 	}
 }

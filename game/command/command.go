@@ -3,6 +3,7 @@ package command
 import (
 	"syscall/js"
 
+	"github.com/fkmhrk/web-simple-rpg/command/battle"
 	"github.com/fkmhrk/web-simple-rpg/command/move"
 	"github.com/fkmhrk/web-simple-rpg/command/title"
 	"github.com/fkmhrk/web-simple-rpg/model"
@@ -18,7 +19,12 @@ func init() {
 	commands["status"] = move.Status
 	commands["back"] = Back
 	commands["next_floor"] = move.NextFloor
+	commands["find"] = move.Find
 	commands["select_character"] = SelectCharacter
+
+	commands["next"] = battle.Next
+	commands["fight"] = battle.Fight
+	commands["state_up"] = battle.StateUp
 }
 
 func Exec(state *model.GameState, args []js.Value) map[string]interface{} {

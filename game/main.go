@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"syscall/js"
+	"time"
 
 	"github.com/fkmhrk/web-simple-rpg/command"
 	"github.com/fkmhrk/web-simple-rpg/model"
@@ -27,6 +29,7 @@ func registerCallbacks() {
 
 func main() {
 	fmt.Printf("Start!\n")
+	rand.Seed(time.Now().UnixNano())
 	c := make(chan struct{}, 0)
 	registerCallbacks()
 	<-c
