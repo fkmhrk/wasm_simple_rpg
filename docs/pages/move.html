@@ -31,6 +31,15 @@ Gold{{format(gold, 6)}}</pre>
       <Button on-click="['send', 'back']" accent>Back</Button>    
     {{elseif state == 3}}
       <Button on-click="['send', 'back']" accent>Back</Button>    
+    {{elseif state == 4}}
+      <Button on-click="['send', 'buy', 0]" accent>Herb(2 Gold)</Button>
+      <Button on-click="['send', 'buy', 1]" accent>potion(5 Gold)</Button>
+      <Button on-click="['send', 'back']" accent>Back</Button>  
+    {{elseif state == 5}}
+      {{#party.characters:i}}
+      <Button on-click="['send', 'shop_target', i]" accent>{{.name}}</Button>
+      {{/}}
+      <Button on-click="['send', 'back']" accent>Back</Button>                  
     {{/if}}
   </div>
 </div>

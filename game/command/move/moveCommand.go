@@ -3,6 +3,7 @@ package move
 import (
 	"syscall/js"
 
+	"github.com/fkmhrk/web-simple-rpg/command/result"
 	"github.com/fkmhrk/web-simple-rpg/model"
 )
 
@@ -14,6 +15,56 @@ func Menu(state *model.GameState, args []js.Value) map[string]interface{} {
 		"next_page": "",
 		"data":      state.ToJSON(),
 	}
+}
+
+func Shop(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateMoveMain {
+		return result.ErrInvalidState
+	}
+	state.State = model.StateMoveShopItemList
+	return result.WithState(state)
+}
+
+func Buy(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateMoveShopItemList {
+		return result.ErrInvalidState
+	}
+	var index int = args[1].Int()
+	if index == 0 {
+		// herb
+		if state.Gold < 2 {
+			return result.WithState(state)
+		}
+		state.Index = 0
+		state.State = model.StateMoveShopTarget
+		return result.WithState(state)
+	} else if index == 1 {
+		// potion
+		if state.Gold < 5 {
+			return result.WithState(state)
+		}
+		state.Index = 1
+		state.State = model.StateMoveShopTarget
+		return result.WithState(state)
+	}
+	return result.WithState(state)
+}
+
+func ShopTarget(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateMoveShopTarget {
+		return result.ErrInvalidState
+	}
+	var target int = args[1].Int()
+	targetCharacter := state.Party.Characters[target]
+	if state.Index == 0 {
+		state.Gold -= 2
+		targetCharacter.HP = targetCharacter.MaxHP
+	} else if state.Index == 1 {
+		state.Gold -= 5
+		targetCharacter.MP = targetCharacter.MaxMP
+	}
+	state.State = model.StateMoveShopItemList
+	return result.WithState(state)
 }
 
 func Status(state *model.GameState, args []js.Value) map[string]interface{} {
