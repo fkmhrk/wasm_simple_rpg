@@ -17,6 +17,7 @@ func init() {
 	commands["menu"] = move.Menu
 	commands["status"] = move.Status
 	commands["back"] = Back
+	commands["next_floor"] = move.NextFloor
 	commands["select_character"] = SelectCharacter
 }
 

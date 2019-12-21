@@ -1,6 +1,7 @@
 import Ractive from "ractive";
 import TopPage from "./TopPage";
 import MovePage from "./MovePage";
+import ClearPage from "./ClearPage";
 
 export const handleResult = async (
   result: ICommandResult,
@@ -23,6 +24,9 @@ export const handleResult = async (
       break;
     case "move":
       nextPage = new MovePage(app);
+      break;
+    case "clear":
+      nextPage = new ClearPage(app);
       break;
   }
   if (nextPage != null) {

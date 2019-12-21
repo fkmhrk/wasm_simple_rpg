@@ -29,6 +29,26 @@ func Status(state *model.GameState, args []js.Value) map[string]interface{} {
 	}
 }
 
+func NextFloor(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateMoveMain {
+		return map[string]interface{}{
+			"error_code": "INVALID_STATE",
+		}
+	}
+	// check max floor
+	if state.Floor == 10 {
+		return map[string]interface{}{
+			"next_page": "clear",
+			"data":      state.ToJSON(),
+		}
+	}
+	state.Floor++
+	return map[string]interface{}{
+		"next_page": "",
+		"data":      state.ToJSON(),
+	}
+}
+
 func SelectStatusCharacter(state *model.GameState, args []js.Value) map[string]interface{} {
 	var index int = args[1].Int()
 	state.State = model.StateMoveStatusShow

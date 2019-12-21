@@ -15,8 +15,8 @@ NEXT{{format(party.characters[selected_index].next_xp - party.characters[selecte
 
   <div class="commands">
     <div class="mdc-card info">
-      <p>Floor 1</p>
-      <p>Gold 1</p>
+      <pre>Floor{{format(floor, 5)}}
+Gold{{format(gold, 6)}}</pre>
     </div>
     {{#if state == 1}}
     <Button on-click="['send', 'next_floor']" accent>Next</Button>
