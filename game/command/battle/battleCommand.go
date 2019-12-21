@@ -56,6 +56,84 @@ func Fight(state *model.GameState, args []js.Value) map[string]interface{} {
 	}
 }
 
+func Magic(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateBattleSelectCommand {
+		return map[string]interface{}{
+			"error_code": "INVALID_STATE",
+		}
+	}
+	state.State = model.StateBattleSelectMagic
+	data := state.ToJSON()
+	return map[string]interface{}{
+		"next_page": "",
+		"data":      data,
+	}
+}
+
+func HealMagic(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateBattleSelectMagic {
+		return map[string]interface{}{
+			"error_code": "INVALID_STATE",
+		}
+	}
+	currentCharacter := state.Party.Characters[state.Index]
+	if currentCharacter.MP < 1 {
+		return map[string]interface{}{
+			"next_page": "",
+			"data":      state.ToJSON(),
+		}
+	}
+	state.State = model.StateBattleSelectHealTarget
+	data := state.ToJSON()
+	return map[string]interface{}{
+		"next_page": "",
+		"data":      data,
+	}
+}
+
+func Target(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateBattleSelectHealTarget {
+		return map[string]interface{}{
+			"error_code": "INVALID_STATE",
+		}
+	}
+	var target int = args[1].Int()
+	currentCharacter := state.Party.Characters[state.Index]
+	targetCharacter := state.Party.Characters[target]
+
+	currentCharacter.MP -= 1
+	value := currentCharacter.Level * 16
+	targetCharacter.HP += value
+	if targetCharacter.HP > targetCharacter.MaxHP {
+		targetCharacter.HP = targetCharacter.MaxHP
+	}
+	return findNextCharacter(state, args)
+}
+
+func DoCureMagic(state *model.GameState, args []js.Value) map[string]interface{} {
+	if state.State != model.StateBattleSelectMagic {
+		return map[string]interface{}{
+			"error_code": "INVALID_STATE",
+		}
+	}
+	currentCharacter := state.Party.Characters[state.Index]
+	if currentCharacter.MP < 3 {
+		return map[string]interface{}{
+			"next_page": "",
+			"data":      state.ToJSON(),
+		}
+	}
+	currentCharacter.MP -= 3
+	value := currentCharacter.Level * 6
+	for _, ch := range state.Party.Characters {
+		ch.HP += value
+		if ch.HP > ch.MaxHP {
+			ch.HP = ch.MaxHP
+		}
+	}
+	return findNextCharacter(state, args)
+}
+
 func StateUp(state *model.GameState, args []js.Value) map[string]interface{} {
 	if state.State != model.StateBattleLevelUp {
 		return map[string]interface{}{

@@ -41,10 +41,12 @@ const (
 	StateMoveStateSelectCharacter = 2
 	StateMoveStatusShow           = 3
 
-	StateBattleStart          = 100
-	StateBattleSelectCommand  = 101
-	StateBattlePlayerAttacked = 102
-	StateBattleGotXP          = 103
-	StateBattleEnemyAttacked  = 110
-	StateBattleLevelUp        = 120
+	StateBattleStart            = 100
+	StateBattleSelectCommand    = 101
+	StateBattlePlayerAttacked   = 102
+	StateBattleGotXP            = 103
+	StateBattleSelectMagic      = 104
+	StateBattleSelectHealTarget = 105
+	StateBattleEnemyAttacked    = 110
+	StateBattleLevelUp          = 120
 )

@@ -20,6 +20,10 @@
       <p class="message">Got {{enemy.xp}} XP</p>
       <p class="message">and {{enemy.gold}} Gold</p>
     </div>        
+    {{elseif state == 104}}
+    <div class="mdc-card">
+      <p class="message">{{party.characters[battle.index].name}}'s option</p>
+    </div>        
     {{elseif state == 110}}
     <div class="mdc-card">
       <p class="message">{{party.characters[battle.index].name}} got {{battle.damage}}!!</p>
@@ -39,6 +43,15 @@
       <Button on-click="['send', 'next']" accent>OK</Button>      
       {{elseif state == 103}}
       <Button on-click="['send', 'next']" accent>OK</Button>      
+      {{elseif state == 104}}
+      <Button on-click="['send', 'magic_heal']" accent>Heal(1MP)</Button>
+      <Button on-click="['send', 'magic_cure']" accent>Cure(3MP)</Button>
+      <Button on-click="['send', 'back']" accent>Back</Button>
+      {{elseif state == 105}}
+        {{#party.characters:i}}
+        <Button on-click="['send', 'battle_target', i]" accent>{{.name}}</Button>
+        {{/}}
+        <Button on-click="['send', 'back']" accent>Back</Button>          
       {{elseif state == 110}}
       <Button on-click="['send', 'next']" accent>OK</Button>     
       {{elseif state == 120}}
@@ -46,6 +59,7 @@
       <Button on-click="['send', 'state_up', 1]" accent>MP</Button>
       <Button on-click="['send', 'state_up', 2]" accent>STR</Button>
       <Button on-click="['send', 'state_up', 3]" accent>DEF</Button>
+      
       {{elseif state == 2}}
         {{#party.characters:i}}
         <Button on-click="['send', 'select_character', i]" accent>{{.name}}</Button>
