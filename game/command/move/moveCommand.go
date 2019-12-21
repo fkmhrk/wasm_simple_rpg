@@ -93,6 +93,20 @@ func NextFloor(state *model.GameState, args []js.Value) map[string]interface{} {
 			"data":      state.ToJSON(),
 		}
 	}
+	if state.Floor == state.MaxFloor {
+		// boss battle
+		// prepare
+		state.PrepareForBattle()
+		// select enemy
+		state.Enemy = model.NewBossEnemy(state.Floor)
+
+		state.State = model.StateBattleStart
+
+		return map[string]interface{}{
+			"next_page": "battle",
+			"data":      state.ToJSON(),
+		}
+	}
 	state.Floor++
 	return map[string]interface{}{
 		"next_page": "",

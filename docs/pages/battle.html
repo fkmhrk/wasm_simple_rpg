@@ -24,6 +24,14 @@
     <div class="mdc-card">
       <p class="message">{{party.characters[battle.index].name}}'s option</p>
     </div>        
+    {{elseif state == 106}}
+    <div class="mdc-card">
+      <p class="message">{{party.characters[battle.index].name}} was killed</p>
+    </div>            
+    {{elseif state == 107}}
+    <div class="mdc-card">
+      <p class="message">YOU LOST</p>
+    </div>
     {{elseif state == 110}}
     <div class="mdc-card">
       <p class="message">{{party.characters[battle.index].name}} got {{battle.damage}}!!</p>
@@ -51,7 +59,11 @@
         {{#party.characters:i}}
         <Button on-click="['send', 'battle_target', i]" accent>{{.name}}</Button>
         {{/}}
-        <Button on-click="['send', 'back']" accent>Back</Button>          
+        <Button on-click="['send', 'back']" accent>Back</Button>
+      {{elseif state == 106}}
+        <Button on-click="['send', 'next']" accent>OK</Button>
+      {{elseif state == 107}}
+        <Button on-click="['send', 'next']" accent>OK</Button>
       {{elseif state == 110}}
       <Button on-click="['send', 'next']" accent>OK</Button>     
       {{elseif state == 120}}

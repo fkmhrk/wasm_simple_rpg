@@ -8,6 +8,7 @@ type Enemy struct {
 	Special int
 	XP      int
 	Gold    int
+	IsBoss  bool
 }
 
 func (e *Enemy) ToJSON() map[string]interface{} {
@@ -25,13 +26,22 @@ func (e *Enemy) ToJSON() map[string]interface{} {
 func NewNormalEnemy(floor int) *Enemy {
 	switch floor {
 	case 1:
-		return makeEnemy("Enemy 0x01", 27, 10, 0, 0, 2, 3)
+		return makeEnemy("Enemy 0x01", 27, 10, 0, 0, 2, 3, false)
 	default:
-		return makeEnemy("Enemy 0x01", 27, 10, 0, 0, 2, 3)
+		return makeEnemy("Enemy 0x01", 27, 10, 0, 0, 2, 3, false)
 	}
 }
 
-func makeEnemy(name string, hp, str, def, special, xp, gold int) *Enemy {
+func NewBossEnemy(floor int) *Enemy {
+	switch floor {
+	case 1:
+		return makeEnemy("Boss 0x11", 100, 35, 1, 0, 30, 25, true)
+	default:
+		return makeEnemy("Boss 0x11", 27, 10, 0, 0, 2, 3, true)
+	}
+}
+
+func makeEnemy(name string, hp, str, def, special, xp, gold int, isBoss bool) *Enemy {
 	return &Enemy{
 		Name:    name,
 		HP:      hp,
@@ -40,5 +50,6 @@ func makeEnemy(name string, hp, str, def, special, xp, gold int) *Enemy {
 		Special: special,
 		XP:      xp,
 		Gold:    gold,
+		IsBoss:  isBoss,
 	}
 }

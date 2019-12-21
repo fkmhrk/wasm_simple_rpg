@@ -6,18 +6,20 @@ type GameState struct {
 	TmpParty *Party
 	Enemy    *Enemy
 	Floor    int
+	MaxFloor int
 	Gold     int
 	Index    int
 }
 
 func NewGameState() *GameState {
 	return &GameState{
-		State: 1,
-		Party: newParty(),
-		Enemy: NewNormalEnemy(1),
-		Floor: 1,
-		Gold:  10,
-		Index: 0,
+		State:    1,
+		Party:    newParty(),
+		Enemy:    NewNormalEnemy(1),
+		Floor:    1,
+		MaxFloor: 1,
+		Gold:     10,
+		Index:    0,
 	}
 }
 
@@ -49,6 +51,8 @@ const (
 	StateBattleGotXP            = 103
 	StateBattleSelectMagic      = 104
 	StateBattleSelectHealTarget = 105
+	StateBattlePlayerKilled     = 106
+	StateBattleAllKilled        = 107
 	StateBattleEnemyAttacked    = 110
 	StateBattleLevelUp          = 120
 )
