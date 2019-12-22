@@ -22,9 +22,19 @@ func sendCommandFunc(this js.Value, args []js.Value) interface{} {
 	return js.ValueOf(out)
 }
 
+func saveFunc(this js.Value, args []js.Value) interface{} {
+	data, iv := state.MakeSaveString()
+	out := map[string]interface{}{
+		"data": data,
+		"iv":   iv,
+	}
+	return js.ValueOf(out)
+}
+
 func registerCallbacks() {
 	js.Global().Set("init", js.FuncOf(initFunc))
 	js.Global().Set("sendCommand", js.FuncOf(sendCommandFunc))
+	js.Global().Set("save", js.FuncOf(saveFunc))
 }
 
 func main() {

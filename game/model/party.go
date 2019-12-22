@@ -62,6 +62,17 @@ func (p *Party) ToJSON() map[string]interface{} {
 	}
 }
 
+func (p *Party) Restore(data map[string]interface{}) {
+	characters := data["characters"].([]interface{})
+	list := make([]*Character, 0, len(characters))
+	for _, characterData := range characters {
+		ch := &Character{}
+		ch.Restore(characterData)
+		list = append(list, ch)
+	}
+	p.Characters = list
+}
+
 func (c Characters) ToJSON() []interface{} {
 	list := make([]interface{}, 0, len(c))
 	for _, character := range c {
@@ -107,4 +118,31 @@ func (c *Character) ToJSON() map[string]interface{} {
 		"str":     c.STR,
 		"def":     c.DEF,
 	}
+}
+
+func (c *Character) Restore(data interface{}) {
+	m := data.(map[string]interface{})
+
+	name := m["name"].(string)
+	hp := m["hp"].(float64)
+	maxHP := m["max_hp"].(float64)
+	mp := m["mp"].(float64)
+	maxMP := m["max_mp"].(float64)
+	level := m["level"].(float64)
+	xp := m["xp"].(float64)
+	next := m["next_xp"].(float64)
+	str := m["str"].(float64)
+	def := m["def"].(float64)
+
+	c.Name = name
+	c.HP = int(hp)
+	c.MaxHP = int(maxHP)
+	c.MP = int(mp)
+	c.MaxMP = int(maxMP)
+	c.Level = int(level)
+	c.XP = int(xp)
+	c.Next = int(next)
+	c.STR = int(str)
+	c.DEF = int(def)
+
 }

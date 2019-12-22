@@ -7,6 +7,7 @@ import PartyStatus from "../views/PartyStatus";
 import { numberFormat } from "../models/numberFormat";
 
 declare function sendCommand(c: string, data?: any): ICommandResult;
+declare function save(): { data: string; iv: string };
 
 export default class MovePage implements IPage {
   private app: IApplication;
@@ -30,6 +31,7 @@ export default class MovePage implements IPage {
       },
       on: {
         send: (e: any, command: string, data: any) => this.send(command, data),
+        save: () => this.save(),
       },
     });
   }
@@ -37,5 +39,18 @@ export default class MovePage implements IPage {
   private send(command: string, data: any) {
     const result = sendCommand(command, data);
     handleResult(result, this.app, this.ractive);
+  }
+
+  private save() {
+    const result = save();
+    if (result["data"] != null && result["iv"] != null) {
+      try {
+        localStorage.setItem("d", result["data"]);
+        localStorage.setItem("i", result["iv"]);
+        alert("saved!");
+      } catch {
+        console.log("Failed to save");
+      }
+    }
   }
 }
