@@ -5,6 +5,7 @@ import Button from "../views/Button";
 import { handleResult } from "./commandHandler";
 import PartyStatus from "../views/PartyStatus";
 import { numberFormat } from "../models/numberFormat";
+import { getString } from "../models/text/text";
 
 declare function sendCommand(c: string, data?: any): ICommandResult;
 
@@ -27,6 +28,7 @@ export default class BattlePage implements IPage {
       },
       data: {
         format: numberFormat,
+        gs: getString,
       },
       on: {
         send: (e: any, command: string, data: any) => this.send(command, data),

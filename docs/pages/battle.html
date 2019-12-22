@@ -4,15 +4,15 @@
   <div class="bottom">
     {{#if state == 100}}
     <div class="mdc-card">
-      <p class="message">{{enemy.name}} found you!</p>
+      <p class="message">{{gs('battle_found', enemy.name)}}</p>
     </div>
     {{elseif state == 101}}
     <div class="mdc-card">
-      <p class="message">{{party.characters[battle.index].name}}'s option</p>
+      <p class="message">{{gs('battle_option', party.characters[battle.index].name)}}</p>
     </div>    
     {{elseif state == 102}}
     <div class="mdc-card">
-      <p class="message">{{enemy.name}} got {{battle.damage}}!!</p>
+      <p class="message">{{gs('battle_damage', enemy.name, battle.damage)}}</p>
     </div>    
     {{elseif state == 103}}
     <div class="mdc-card">
@@ -22,11 +22,11 @@
     </div>        
     {{elseif state == 104}}
     <div class="mdc-card">
-      <p class="message">{{party.characters[battle.index].name}}'s option</p>
+      <p class="message">{{gs('battle_option', party.characters[battle.index].name)}}</p>
     </div>        
     {{elseif state == 106}}
     <div class="mdc-card">
-      <p class="message">{{party.characters[battle.index].name}} was killed</p>
+      <p class="message">{{gs('battle_killed', party.characters[battle.index].name)}}</p>
     </div>            
     {{elseif state == 107}}
     <div class="mdc-card">
@@ -34,11 +34,11 @@
     </div>
     {{elseif state == 110}}
     <div class="mdc-card">
-      <p class="message">{{party.characters[battle.index].name}} got {{battle.damage}}!!</p>
+      <p class="message">{{gs('battle_damage', party.characters[battle.index].name, battle.damage)}}</p>
     </div> 
     {{elseif state == 120}}
     <div class="mdc-card">
-      <p class="message">{{party.characters[battle.index].name}} got Level {{party.characters[battle.index].level}}</p>
+      <p class="message">{{gs('next_level', party.characters[battle.index].name, party.characters[battle.index].level)}}</p>
     </div>            
     {{/if}}
     <div class="commands">
