@@ -176,6 +176,7 @@ func checkEnemyKilled(state *model.GameState, args []js.Value) map[string]interf
 	if state.Enemy.HP == 0 {
 		state.State = model.StateBattleGotXP
 		state.Gold += state.Enemy.Gold
+		addXP(state)
 		state.Index = 0
 		data := state.ToJSON()
 		return map[string]interface{}{
@@ -184,6 +185,15 @@ func checkEnemyKilled(state *model.GameState, args []js.Value) map[string]interf
 		}
 	}
 	return findNextCharacter(state, args)
+}
+
+func addXP(state *model.GameState) {
+	for _, targetCharacter := range state.Party.Characters {
+		if targetCharacter.HP == 0 {
+			continue
+		}
+		targetCharacter.XP += state.Enemy.XP
+	}
 }
 
 func doEnemyAction(state *model.GameState, args []js.Value) map[string]interface{} {
@@ -256,7 +266,6 @@ func checkLevelUp(state *model.GameState, args []js.Value) map[string]interface{
 		if targetCharacter.HP == 0 {
 			continue
 		}
-		targetCharacter.XP += state.Enemy.XP
 		state.Index = i
 		if targetCharacter.XP >= targetCharacter.Next &&
 			targetCharacter.Level < 99 {
