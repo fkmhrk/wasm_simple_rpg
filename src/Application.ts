@@ -22,10 +22,9 @@ export default class Application implements IApplication {
   async start() {
     const go = new Go();
 
-    const result = await WebAssembly.instantiateStreaming(
-      fetch("./game.wasm"),
-      go.importObject
-    );
+    const wasmResp = await fetch("./game.wasm");
+    const buffer = await wasmResp.arrayBuffer();
+    const result = await WebAssembly.instantiate(buffer, go.importObject);
     go.run(result.instance);
     const state = init();
     console.log(state);
