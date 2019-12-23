@@ -542,7 +542,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"APP_VERSION\", function() { return APP_VERSION; });\nconst APP_VERSION = \"0.0.1\";\n\n\n//# sourceURL=webpack:///./src/version.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"APP_VERSION\", function() { return APP_VERSION; });\nconst APP_VERSION = \"0.0.2\";\n\n\n//# sourceURL=webpack:///./src/version.ts?");
 
 /***/ }),
 
